@@ -26,13 +26,14 @@ class ProductManager{
         this.products.push(newProduct);
         console.log("producto agregado");
     }
-    getProductById(code){
-        const products = this.products.find(p => p.code === code);
-        if(!this.products){
-          throw new Error ('El producto no fue encontrado &{code}');
+    getProductById(addProduct){
+        if(this.products.find((product)=> product.id === addProduct)){
+            console.log(this.products.find((product)=> product.id === addProduct));
+        
+        }else{
+            console.log(error);
         }
-        return products;
-    }
+    }   
 }
 
 const manager = new ProductManager();
