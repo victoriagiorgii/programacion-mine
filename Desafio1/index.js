@@ -3,10 +3,15 @@ class ProductManager{
         this.products = []
     };
 
-    addProduct(title, description,price, stock, thumbnail, code){
-        if(!title || !description || !price || !stock || !thumbnail || !code){
+    addProduct(title, description,price, stock, thumbnail,code){
+        if(!title || !description || !price || !stock || !thumbnail){
             return console.log("Todos los campos son obligatorios")
+        }if(this.products.find((product)=> product.code === code)  ){
+            return console.log("nose a encontrado")
         }
+    
+    
+     
         let addId;
         if(this.products.length === 0){
           addId= 1;
@@ -26,6 +31,7 @@ class ProductManager{
     })
         this.products.push(newProduct);
         console.log("producto agregado");
+    
     }
     getProductById(addProduct){
         if(this.products.find((product)=> product.id === addProduct)){
@@ -34,8 +40,17 @@ class ProductManager{
         }else{
             console.log("id no encontrado");
         }
-    }   
+    }  
+    
+
+
+    getAllProducts(){
+        return(this.products)
+    } 
+  
 }
+
+
 
 const manager = new ProductManager();
 //console.log(manager);
@@ -44,3 +59,8 @@ manager.addProduct("Aro","aro de plata forma mariposa", 4200, 3, "sin imagen", "
 manager.addProduct("Collar", "collar de plata con perlas",2500,6,"sin imagen","945632");
 manager.addProduct("Aro","aro de plata forma cilindrica",undefined);
 manager.addProduct("Pulsera","pulsera plata con inicial",7300,undefined);
+
+let products = manager.getAllProducts();
+console.log(products);
+
+
