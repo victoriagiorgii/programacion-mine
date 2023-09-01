@@ -54,9 +54,9 @@ class ProductManager{
 
 const manager = new ProductManager();
 //console.log(manager);
-manager.addProduct("Pulsera","pulsera de plata brillos",7000,4,"sin imagen","329756");
-manager.addProduct("Aro","aro de plata forma mariposa", 4200, 3, "sin imagen", "425996");
-manager.addProduct("Collar", "collar de plata con perlas",2500,6,"sin imagen","945632");
+manager.addProduct("Pulsera","pulsera de plata brillos",7000,4,"sin imagen","321");
+manager.addProduct("Aro","aro de plata forma mariposa", 4200, 3, "sin imagen", "654");
+manager.addProduct("Collar", "collar de plata con perlas",2500,6,"sin imagen","987");
 manager.addProduct("Aro","aro de plata forma cilindrica",undefined);
 manager.addProduct("Pulsera","pulsera plata con inicial",7300,undefined);
 
