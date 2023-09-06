@@ -5,22 +5,23 @@ class ProductManager{
         this.products= []
     }
     static id = 0;
-    addProduct=async (title, description,price, stock, thumbnail,code)=>{
+    addProduct=async (title, description,price,thumbnail,code,stock)=>{
         ProductManager.id ++
-        let newProduct=(
+        let newProduct={
             title,
             description,
             price,
             thumbnail,
             code,
             stock,
-            ProductManager.id
-        );
+            ProductManager
+        };
+        const fs = require('fs')
          this.products.push(newProduct)
-         await fs.writeFile(this.patch, JSON.stringify(this.products));
+         fs.writeFileSync(this.patch, JSON.stringify(this.products))
     };
    readProducts= async()=>{
-    let respuesta1= await fs.readFile(this.patch, "utf-8")
+    let respuesta1= await fs.readFileSync(this.patch, "utf-8")
     return JSON.parse(respuesta1)
    }
    getProducts= async()=>{
@@ -41,15 +42,15 @@ class ProductManager{
    deleteProductById = async () => {
     let respuesta3 = await this.readProducts();
     let productFilter = respuesta3.filter(products => products.id != id)
-    await fs.writeFile(this.patch, JSON.stringify(productFilter));
+    await fs.readFileSync(this.patch, JSON.stringify(productFilter));
     console.log("Producto eliminado");
    };
 
-   updateProducts = async ({id, ...producto}) => {
+   updateProducts = async (title, description,price, stock, thumbnail,code) => {
     await this.deleteProductById(id);
     let oldProduct = await this.readProducts()
-    let modProd = [{id, ...producto}, ...oldProduct];
-    await fs.writeFile(this.patch, JSON.stringify(modProd));
+    let modProd = [{title, description,price, stock, thumbnail,code}];
+    await fs.writeFileSync(this.patch, JSON.stringify(modProd));
    }
 
 
