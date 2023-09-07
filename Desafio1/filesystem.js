@@ -1,12 +1,17 @@
-
+import fs from 'fs'
 class ProductManager{
-    constructor(){
-        this.patch="./productos.txt";
-        this.products= []
+    constructor(patch){
+        this.patch=patch;
+       
     }
-    static id = 0;
     addProduct=async (title, description,price,thumbnail,code,stock)=>{
-        ProductManager.id ++
+        let productos = []
+        productos = await this.readProducts() 
+
+        let id = 1 
+        if(productos.length){
+            id = productos[productos.length -1].id +1
+        }
         let newProduct={
             title,
             description,
@@ -14,20 +19,18 @@ class ProductManager{
             thumbnail,
             code,
             stock,
-            ProductManager
+            id
         };
-        const fs = require('fs')
-         this.products.push(newProduct)
-         fs.writeFileSync(this.patch, JSON.stringify(this.products))
+        productos = [...productos,newProduct] 
+         fs.writeFileSync(this.patch, JSON.stringify(productos))
+
     };
-   readProducts= async()=>{
-    let respuesta1= await fs.readFileSync(this.patch, "utf-8")
+   readProducts= ()=>{
+    let respuesta1=  fs.readFileSync(this.patch, "utf-8")
+    if(!respuesta1) return null
     return JSON.parse(respuesta1)
    }
-   getProducts= async()=>{
-    let respuesta2= await this.readProducts()
-    return console.log (respuesta2)
-   }
+  
 
    getProductsById= async (id) => {
     let respuesta3 = await this.readProducts()
@@ -42,27 +45,27 @@ class ProductManager{
    deleteProductById = async () => {
     let respuesta3 = await this.readProducts();
     let productFilter = respuesta3.filter(products => products.id != id)
-    await fs.readFileSync(this.patch, JSON.stringify(productFilter));
+    fs.writeFileSync(this.patch, JSON.stringify(productFilter));
     console.log("Producto eliminado");
    };
 
-   updateProducts = async (title, description,price, stock, thumbnail,code) => {
-    await this.deleteProductById(id);
-    let oldProduct = await this.readProducts()
-    let modProd = [{title, description,price, stock, thumbnail,code}];
-    await fs.writeFileSync(this.patch, JSON.stringify(modProd));
-   }
+   updateProducts= async (id)=> {
+    await this.deleteProductById(products);
+    let oldProducts =await this.readProducts()
+    let modProd = [...oldProducts,{id,title, description,price, stock, thumbnail,code}]
+    fs.writeFileSync(this.patch, JSON.stringify(modProd));
 
+   }
 
 }
 
-const productos = new ProductManager();
+const productos = new ProductManager("../productos.txt");
 
-productos.addProduct("Title1","Description1",7000,"Imagen","321",4);
-productos.addProduct("Title1","Description1",4200,"Imagen","654",3);
-productos.addProduct("Title1","Description1",2500,"Imagen","987",6);
+productos.addProduct("collar","collar plata",7000,"Imagen1","321",4);
+productos.addProduct("pulsera","pulsera corazon",4200,"Imagen2","654",3);
+productos.addProduct("anillo","anillo diamante",2500,"Imagen3","987",6);
 
-productos.getProducts()
-productos.getProductsById()
+//productos.getProducts()
+//productos.getProductsById()
 
-productos.deleteProductById()
+//productos.deleteProductById()
