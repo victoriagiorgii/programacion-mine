@@ -6,7 +6,7 @@ class ProductManager{
     }
     addProduct=async (title, description,price,thumbnail,code,stock)=>{
         let productos = []
-        productos = await this.readProducts() 
+        productos = await this.getProducts() 
 
         let id = 1 
         if(productos.length){
@@ -38,23 +38,22 @@ class ProductManager{
         console.log("Producto no encontrado");
     }else{
         console.log(respuesta3.find((products)=> products.id === id));
-       }
+    }
 
    };
 
-   deleteProductById = async () => {
+   deleteProductById = async (id) => {
     let respuesta3 = await this.readProducts();
     let productFilter = respuesta3.filter(products => products.id != id)
     fs.writeFileSync(this.patch, JSON.stringify(productFilter));
     console.log("Producto eliminado");
    };
 
-   updateProducts= async (id)=> {
-    await this.deleteProductById(products);
-    let oldProducts =await this.readProducts()
-    let modProd = [...oldProducts,{id,title, description,price, stock, thumbnail,code}]
+   updateProducts= async (id,...productos)=> {
+    await this.deleteProductById(id);
+    let oldProduct =await this.readProducts()
+    let modProd = [...oldProduct,{id,...productos}]
     fs.writeFileSync(this.patch, JSON.stringify(modProd));
-
    }
 
 }
