@@ -1,12 +1,12 @@
 import fs from 'fs'
-class ProductManager{
+export class ProductManager{
     constructor(patch){
         this.patch=patch;
        
     }
     addProduct=async (title, description,price,thumbnail,code,stock)=>{
         let productos = []
-        productos = await this.getProducts() 
+        productos = await this.readProducts() 
 
         let id = 1 
         if(productos.length){

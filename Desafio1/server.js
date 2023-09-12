@@ -4,7 +4,7 @@ import {ProductManager} from "./ProductManager.js"
 const app = express();
 app.use(express.urlencoded({ extended: true}));
 
-const productos = new ProductManager();
+const productos = new ProductManager("../productos.txt");
 const readProducts= productos.readProducts();
 
 app.get("/products", async (req, res) => {
@@ -16,7 +16,7 @@ app.get("/products", async (req, res) => {
 });
 
 
-   app.get("/products", async (req, res) =>{
+   app.get("/products/:id", async (req, res) =>{
     let id = parseInt(req.params.id);
     let allProducts = await readProducts
     let productById = allProducts.find(product => product.id === id)
